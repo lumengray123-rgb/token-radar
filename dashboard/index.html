@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Token Radar — pre-token protocols, ranked by implied value</title>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="mark" aria-hidden="true">◎</span>
+    <div>
+      <h1>Token Radar</h1>
+      <p class="sub">Pre-token DeFi protocols, ranked by what their launch would be worth.</p>
+    </div>
+  </div>
+  <p class="meta" id="meta">Loading the snapshot…</p>
+</header>
+
+<main>
+  <section class="lede" aria-label="What this board is">
+    <p class="lede-text" id="lede-text"></p>
+    <dl class="facts" id="facts"></dl>
+  </section>
+
+  <section class="controls" aria-label="Board controls">
+    <label class="search">Search
+      <input id="q" type="search" placeholder="Protocol name or slug" autocomplete="off">
+    </label>
+    <label>Category
+      <select id="category"><option value="">All categories</option></select>
+    </label>
+    <label>Chain
+      <select id="chain"><option value="">All chains</option></select>
+    </label>
+    <label class="check"><input id="watch" type="checkbox"> Watchlist only</label>
+    <nav class="tabs" aria-label="Views">
+      <button type="button" data-tab="pre" class="active">Pre-token board</button>
+      <button type="button" data-tab="live">Live token</button>
+      <button type="button" data-tab="comps">Market comps</button>
+    </nav>
+  </section>
+
+  <section id="board-wrap" aria-label="Ranked board">
+    <p class="count" id="count"></p>
+    <div class="table-scroll">
+      <table id="board">
+        <thead>
+          <tr>
+            <th data-sort="rank" class="num sorted" scope="col">Rank</th>
+            <th data-sort="name" scope="col">Protocol</th>
+            <th data-sort="tvl" class="num" scope="col">TVL</th>
+            <th data-sort="change" class="num" scope="col">7d</th>
+            <th data-sort="age" class="num" scope="col">Age</th>
+            <th data-sort="comp" class="num" scope="col">Comp ×</th>
+            <th data-sort="implied" class="num" scope="col">Implied value</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="comps-wrap" aria-label="Market comps" hidden>
+    <p class="count" id="comps-count"></p>
+    <div class="table-scroll">
+      <table id="comps-table">
+        <thead>
+          <tr>
+            <th scope="col">Category</th>
+            <th class="num" scope="col">Live protocols</th>
+            <th class="num" scope="col">Median mcap / TVL</th>
+          </tr>
+        </thead>
+        <tbody id="comps-rows"></tbody>
+      </table>
+    </div>
+    <p class="note">Each multiple is the median of the live-token protocols in that category in the same snapshot. Categories with fewer than three live protocols fall back to the global median — the board says which, per row.</p>
+  </section>
+
+  <section class="model" aria-label="How the ranking works">
+    <h2>How the ranking works</h2>
+    <p class="formula">implied = TVL × comp × growth × maturity × breadth</p>
+    <ul>
+      <li><strong>Comp</strong> — the market's own price for the category: the median mcap/TVL of the live-token protocols in it (at least three), else the global median. Clamped to 0.05–1.00.</li>
+      <li><strong>Growth</strong> — 1 + the 7-day TVL change, clamped to −40%…+60%, halved. A protocol growing fast is worth more than one shrinking at the same TVL.</li>
+      <li><strong>Maturity</strong> — 0.70 + up to 0.30 for up to two years listed. A protocol that has run for two years without a token has more to price in than one listed last month.</li>
+      <li><strong>Breadth</strong> — +2% per extra chain, up to nine. Multi-chain reach is real distribution.</li>
+    </ul>
+    <p class="note">Pre-token means the snapshot records no token for the protocol — no market cap, no CoinGecko id, no symbol. That is not proof it has no token: the record may be incomplete. Implied value is a model's estimate of what a launch would be worth, not a price, and the farm plans are starting points, not advice. The board never ranks a wrapped, staked, bridged or versioned product, and no protocol name is ever special-cased — the same function scores every row.</p>
+  </section>
+</main>
+
+<footer>
+  <p>Token Radar · model radar-2 · built from a sealed DefiLlama snapshot. The page renders fully offline: no fetch, no network.</p>
+</footer>
+
+<dialog id="detail" aria-label="Protocol detail"></dialog>
+
+<script src="../data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,1 @@
+{"description":"Token launch radar: pre-token DeFi protocols ranked by implied value from a sealed DefiLlama snapshot.","engines":{"node":">=22.18.0"},"license":"MIT","name":"token-radar","private":true,"type":"module","version":"1.0.0"}
